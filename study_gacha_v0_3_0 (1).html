@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Study Gacha</title>
+<style>
+:root{--bg:#101426;--panel:#1b2340;--panel2:#232d50;--text:#f5f6ff;--muted:#aab3d1;--gold:#ffd36a;--purple:#a88bff;--line:#344064;--green:#65d6a1}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0,#30275c 0,transparent 35%),var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+header{max-width:1100px;margin:auto;padding:24px 20px 12px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{font-weight:900;letter-spacing:.06em;font-size:22px}.brand span{color:var(--gold)}.wallet{background:#2a2b48;border:1px solid #5c527e;border-radius:999px;padding:10px 16px;color:var(--gold);font-weight:800}
+main{max-width:1100px;margin:auto;padding:12px 20px 50px}.hero{padding:25px;border-radius:24px;background:linear-gradient(120deg,#30265b,#1d3156);border:1px solid #4d4a78;margin-bottom:18px}.hero h1{font-size:clamp(26px,5vw,42px);margin:0 0 8px}.hero p{color:#d3d5ed;margin:0}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.tab,button,select,input{font:inherit}.tab,button{border:0;border-radius:12px;padding:11px 16px;cursor:pointer;font-weight:750}.tab{background:var(--panel);color:var(--muted);border:1px solid var(--line)}.tab.active{background:var(--gold);color:#28203b}.panel{display:none}.panel.active{display:block}.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:20px;margin-bottom:16px}.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.between{justify-content:space-between}.muted{color:var(--muted)}.small{font-size:13px;color:var(--muted)}h2{margin:0 0 14px;font-size:22px}h3{margin:0 0 8px}.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px}label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}select,input{width:100%;padding:12px;border-radius:11px;border:1px solid var(--line);background:#111a32;color:var(--text)}.primary{background:linear-gradient(90deg,#ffd36a,#ffb85d);color:#30213d}.secondary{background:var(--panel2);color:var(--text);border:1px solid var(--line)}.question{font-size:22px;line-height:1.55;margin:16px 0}.choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}.choice{text-align:left;background:#273252;color:var(--text);border:1px solid #46547b}.choice:hover{border-color:var(--gold)}.choice:disabled{opacity:.7;cursor:default}.feedback{padding:14px;border-radius:12px;margin-top:14px;display:none}.feedback.good{display:block;background:#173e37;color:#b9ffe0}.feedback.bad{display:block;background:#492b3b;color:#ffd0dc}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{background:#111a32;padding:14px;border-radius:14px}.stat strong{display:block;font-size:25px;color:var(--gold)}.gacha-box{text-align:center;padding:24px;background:linear-gradient(145deg,#2b2453,#1c3150);border-radius:18px}.capsule{font-size:76px;margin:10px}.inventory{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:10px}.item{background:#111a32;border:1px solid var(--line);border-radius:14px;padding:14px}.rarity{font-size:12px;font-weight:800;color:var(--gold)}.notice{background:#332e4e;border:1px solid #62528b;border-radius:13px;padding:13px;color:#e5dcff;font-size:14px;line-height:1.6}.footer{color:var(--muted);font-size:12px;text-align:center;margin-top:25px}
+@media(max-width:560px){header{padding:18px 14px}main{padding:10px 14px 35px}.card{padding:16px}.stats{grid-template-columns:1fr 1fr}.question{font-size:19px}}
+
+.gacha-box{position:relative;overflow:hidden}.capsule{display:inline-block;transform-origin:center;transition:transform .25s ease}.capsule.shaking{animation:capsuleShake .12s infinite}.capsule.opening{animation:capsulePop .65s ease forwards}.gacha-box.reveal-flash:after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle,rgba(255,255,255,.85),transparent 70%);animation:flashOut .7s ease-out forwards}.result-reveal{animation:resultReveal .65s cubic-bezier(.2,.8,.2,1) both}.result-reveal .prize-emoji{font-size:76px;display:inline-block;animation:prizeFloat 1.6s ease-in-out infinite}.rarity-N{color:#d5d9e6}.rarity-R{color:#7ecbff}.rarity-SR{color:#d4a5ff}.rarity-SSR{color:#ffd76d;text-shadow:0 0 12px #ffcf4d}.rarity-UR{color:#ff9df5;text-shadow:0 0 16px #ff6ce5}
+@keyframes capsuleShake{0%{transform:rotate(-9deg) scale(1)}50%{transform:rotate(9deg) scale(1.1)}100%{transform:rotate(-9deg) scale(1)}}@keyframes capsulePop{0%{transform:scale(1) rotate(0)}55%{transform:scale(1.5) rotate(10deg)}100%{transform:scale(.1) rotate(30deg);opacity:0}}@keyframes flashOut{0%{opacity:1}100%{opacity:0}}@keyframes resultReveal{0%{opacity:0;transform:translateY(25px) scale(.65)}65%{opacity:1;transform:translateY(-5px) scale(1.06)}100%{opacity:1;transform:translateY(0) scale(1)}}@keyframes prizeFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+</style>
+</head>
+<body>
+<header><div class="brand">✦ STUDY <span>GACHA</span></div><div class="wallet">🪙 <span id="points">0</span> P</div></header>
+<main>
+<section class="hero"><h1>勉強して、ガチャを回そう。</h1><p>問題に正解するとポイント獲得。集めたポイントでアイテムやキャラクターをゲット！</p></section>
+<section class="card" id="accountPanel"><h2>👤 個人アカウント（この端末内）</h2><div id="accountStatus" class="small">ログインしてデータを保存・切り替えできます。</div><div id="authForms" class="controls" style="margin-top:12px"><div><label for="accountName">ユーザー名</label><input id="accountName" autocomplete="username" placeholder="英数字・3文字以上"></div><div><label for="accountPassword">パスワード</label><input id="accountPassword" type="password" autocomplete="current-password" placeholder="6文字以上"></div><div class="row" style="align-items:end"><button class="primary" id="registerBtn">アカウント作成</button><button class="secondary" id="loginBtn">ログイン</button></div></div><div id="accountActions" style="display:none;margin-top:10px"><button class="secondary" id="logoutBtn">ログアウト</button> <button class="secondary" id="backupBtn">データを書き出す</button> <label style="display:inline-block;margin:0"><button class="secondary" type="button" id="importBtn">バックアップを読み込む</button><input type="file" id="backupFile" accept="application/json" style="display:none"></label></div><p class="small">注意：現在はブラウザ内保存の試作アカウントです。端末・ブラウザを変えた場合やデータ消去時は引き継がれません。共有・本格的なアカウント同期にはサーバー接続が必要です。</p></section>
+<nav class="tabs">
+<button class="tab active" data-tab="study">📚 勉強する</button><button class="tab" data-tab="gacha">🎁 ガチャ</button><button class="tab" data-tab="collection">🗂 コレクション</button><button class="tab" data-tab="record">📈 学習記録</button>
+</nav>
+<section id="study" class="panel active">
+<div class="card">
+<h2>問題を選ぶ</h2>
+<div class="controls">
+<div><label for="subject">教科</label><select id="subject"><option>すべて</option><option>国語</option><option>数学</option><option>英語</option><option>理科</option><option>社会</option></select></div>
+<div><label for="level">学習レベル</label><select id="level"><option>すべて</option><option>小学生</option><option>中学1年</option><option>中学2年</option><option>中学3年</option><option>高校</option><option>一般教養</option></select></div>
+<div><label for="difficulty">難易度</label><select id="difficulty"><option value="0">すべて</option><option value="1">★ 入門</option><option value="2">★★ 初級</option><option value="3">★★★ 中級</option><option value="4">★★★★ 上級</option><option value="5">★★★★★ 超上級</option></select></div>
+</div>
+<div class="row between"><span class="small" id="questionCount">収録問題</span><button class="primary" id="nextBtn">問題を出す</button></div>
+</div>
+<div class="card" id="quizCard"><div class="row between"><span class="small" id="qMeta">問題を出してください</span><span class="rarity" id="qPoints"></span></div><div class="question" id="questionText">教科・レベル・難易度を選んで「問題を出す」を押そう！</div><div id="answerArea"></div><div class="feedback" id="feedback"></div></div>
+<div class="notice">ポイントは正解時に獲得できます。同じ問題の繰り返しによるポイント稼ぎを防ぐため、初回正解のみ通常ポイントが加算されます。同じ問題の再回答では追加ポイントは発生しません。</div>
+</section>
+<section id="gacha" class="panel">
+<div class="card gacha-box"><div class="small">STUDY GACHA / NORMAL</div><div class="capsule">🎰</div><h2>スタディガチャ</h2><p class="muted">1回 300 P</p><button class="primary" id="drawBtn">ガチャを1回引く</button><div id="drawResult" aria-live="polite"></div><div id="devTools" style="display:none;margin-top:18px"><button class="secondary" id="devAddPoints">🧪 開発テスト限定：+300P</button><p class="small">開発確認用。URL末尾に ?dev=1 を付けた場合のみ表示されます。</p></div></div>
+<div class="card"><h2>排出率</h2><div class="small">N 50%　/　R 30%　/　SR 15%　/　SSR 4%　/　UR 1%</div><p class="small">ポイントのみで引けるガチャです。課金・現金購入はありません。</p></div>
+</section>
+<section id="collection" class="panel"><div class="card"><h2>獲得したアイテム</h2><p class="small">所持アイテムは「使用」ボタンで効果を発動できます。キャラクターや装飾は装備できます。</p><div id="equippedDisplay" class="notice" style="margin-bottom:12px">装備：なし</div><div class="inventory" id="inventory"></div></div></section>
+<section id="record" class="panel"><div class="card"><h2>学習記録</h2><div class="stats"><div class="stat"><span class="small">回答数</span><strong id="answered">0</strong></div><div class="stat"><span class="small">正解数</span><strong id="correct">0</strong></div><div class="stat"><span class="small">正答率</span><strong id="accuracy">0%</strong></div><div class="stat"><span class="small">初回正解済み問題数</span><strong id="firstCorrectCount">0</strong></div></div></div><div class="card"><h2>AI問題生成</h2><div class="notice">AI問題生成は次の開発段階で接続します。APIキーをブラウザに置かず、サーバー経由で生成し、解答・解説の検証を通してから出題する設計です。現在は確認済みの固定問題をプレイできます。</div></div></section>
+<div id="startupError" class="notice" style="display:none;margin-top:12px">アプリのプログラムを実行できませんでした。ファイルをChromeまたはEdgeで開き直してください。</div><div class="footer">Study Gacha prototype v0.3.0 · 学習用デモ · データはこのブラウザに保存されます</div>
+</main>
+<script>
+const questions=[
+{id:"J-001",s:"国語",l:"小学生",d:1,t:"choice",q:"「山」の読み方として正しいものはどれ？",c:["かわ","やま","うみ","そら"],a:1,e:"「山」は「やま」と読みます。",p:5},
+{id:"J-002",s:"国語",l:"中学1年",d:2,t:"choice",q:"「走る」の品詞はどれ？",c:["名詞","形容詞","動詞","副詞"],a:2,e:"動作を表す「走る」は動詞です。",p:8},
+{id:"J-003",s:"国語",l:"高校",d:3,t:"choice",q:"「婉曲」の読み方はどれ？",c:["えんきょく","わんきょく","えんまげ","わんまげ"],a:0,e:"「婉曲」は「えんきょく」と読み、遠回しな表現を意味します。",p:10},
+{id:"M-001",s:"数学",l:"小学生",d:1,t:"choice",q:"12 × 8 はいくつ？",c:["84","96","108","112"],a:1,e:"12 × 8 = 96 です。",p:5},
+{id:"M-002",s:"数学",l:"中学1年",d:2,t:"input",q:"方程式 x + 7 = 19 のとき、x はいくつ？",a:"12",e:"両辺から7を引くと x = 19 − 7 = 12 です。",p:8},
+{id:"M-003",s:"数学",l:"中学2年",d:3,t:"choice",q:"一次関数 y = 3x + 2 の傾きはいくつ？",c:["2","3","5","−3"],a:1,e:"y = ax + b の傾きは x の係数 a なので3です。",p:10},
+{id:"M-004",s:"数学",l:"高校",d:4,t:"input",q:"2x² − 8 = 0 の正の解 x は？",a:"2",e:"2x²=8、x²=4 より、正の解は x=2 です。",p:15},
+{id:"E-001",s:"英語",l:"小学生",d:1,t:"choice",q:"「りんご」を意味する英単語はどれ？",c:["orange","apple","grape","lemon"],a:1,e:"apple は「りんご」です。",p:5},
+{id:"E-002",s:"英語",l:"中学1年",d:2,t:"choice",q:"「私は学生です。」の正しい英訳はどれ？",c:["I am a student.","I is a student.","I are student.","Am I student."],a:0,e:"I に続く be 動詞は am です。student は数えられる名詞なので a が必要です。",p:8},
+{id:"E-003",s:"英語",l:"中学2年",d:3,t:"choice",q:"次の空欄に入る語は？ She (　) tennis every Sunday.",c:["play","plays","playing","played"],a:1,e:"主語が三人称単数で現在の習慣を表すため、plays になります。",p:10},
+{id:"S-001",s:"理科",l:"小学生",d:1,t:"choice",q:"植物が光を使って養分をつくるはたらきは？",c:["蒸発","呼吸","光合成","消化"],a:2,e:"植物は光エネルギーを使って光合成を行います。",p:5},
+{id:"S-002",s:"理科",l:"中学2年",d:3,t:"choice",q:"電流の単位はどれ？",c:["ボルト","アンペア","オーム","ワット"],a:1,e:"電流の単位はアンペア（A）です。",p:10},
+{id:"S-003",s:"理科",l:"高校",d:4,t:"choice",q:"水の化学式はどれ？",c:["CO₂","O₂","H₂O","NaCl"],a:2,e:"水は水素原子2個と酸素原子1個からなる H₂O です。",p:15},
+{id:"H-001",s:"社会",l:"小学生",d:1,t:"choice",q:"日本の首都はどこ？",c:["大阪","東京","京都","福岡"],a:1,e:"日本の首都は東京です。",p:5},
+{id:"H-002",s:"社会",l:"中学1年",d:2,t:"choice",q:"日本で最も面積が大きい都道府県は？",c:["岩手県","長野県","北海道","福島県"],a:2,e:"北海道が日本で最も面積の大きい都道府県です。",p:8},
+{id:"H-003",s:"社会",l:"高校",d:3,t:"choice",q:"日本国憲法が施行された年は？",c:["1945年","1946年","1947年","1950年"],a:2,e:"日本国憲法は1946年に公布され、1947年5月3日に施行されました。",p:10}
+
+,{id:"J-004",s:"国語",l:"小学生",d:1,t:"choice",q:"「花」の読み方として正しいものは？",c:["はな","ほし","つき","そら"],a:0,e:"「花」は「はな」と読みます。",p:5}
+,{id:"J-005",s:"国語",l:"中学1年",d:2,t:"choice",q:"「美しい」の品詞はどれ？",c:["名詞","動詞","形容詞","助詞"],a:2,e:"「美しい」は形容詞です。",p:8}
+,{id:"J-006",s:"国語",l:"中学2年",d:3,t:"choice",q:"「原因」の対になる意味に近い語は？",c:["結果","理由","目的","方法"],a:0,e:"原因によって生じるものが結果です。",p:10}
+,{id:"J-007",s:"国語",l:"高校",d:4,t:"choice",q:"「憂鬱」の読みは？",c:["ゆううつ","ゆういつ","うつゆう","ゆうあつ"],a:0,e:"「憂鬱」は「ゆううつ」と読みます。",p:15}
+,{id:"J-008",s:"国語",l:"一般教養",d:2,t:"choice",q:"「石の上にも三年」が表す考えは？",c:["急ぐこと","忍耐すること","旅をすること","石を集めること"],a:1,e:"辛抱強く続けることの大切さを表すことわざです。",p:8}
+,{id:"M-005",s:"数学",l:"小学生",d:1,t:"choice",q:"45 ÷ 5 は？",c:["8","9","10","11"],a:1,e:"45 ÷ 5 = 9 です。",p:5}
+,{id:"M-006",s:"数学",l:"中学1年",d:2,t:"input",q:"3x = 21 のとき x は？",a:"7",e:"両辺を3で割ると x = 7 です。",p:8}
+,{id:"M-007",s:"数学",l:"中学2年",d:3,t:"choice",q:"三角形の内角の和は？",c:["90°","180°","270°","360°"],a:1,e:"三角形の内角の和は180°です。",p:10}
+,{id:"M-008",s:"数学",l:"中学3年",d:3,t:"choice",q:"x² − 9 を因数分解すると？",c:["(x−3)(x+3)","(x−9)(x+1)","x(x−9)","(x−3)²"],a:0,e:"平方差の公式 a²−b²=(a−b)(a+b) を使います。",p:10}
+,{id:"M-009",s:"数学",l:"高校",d:4,t:"choice",q:"sin 30° の値は？",c:["1","√3/2","1/2","0"],a:2,e:"sin 30° = 1/2 です。",p:15}
+,{id:"M-010",s:"数学",l:"一般教養",d:2,t:"choice",q:"税込価格が1100円、税率10%の税抜価格は？",c:["900円","1000円","1010円","1100円"],a:1,e:"1100 ÷ 1.1 = 1000円です。",p:8}
+,{id:"E-004",s:"英語",l:"小学生",d:1,t:"choice",q:"「犬」を意味する英単語は？",c:["cat","bird","dog","fish"],a:2,e:"dog は「犬」です。",p:5}
+,{id:"E-005",s:"英語",l:"中学1年",d:2,t:"choice",q:"They ( ) soccer. に入る語は？",c:["likes","like","liking","liked"],a:1,e:"They は複数なので現在形は like です。",p:8}
+,{id:"E-006",s:"英語",l:"中学2年",d:3,t:"choice",q:"「昨日、私は図書館へ行きました。」の英訳は？",c:["I go to library yesterday.","I went to the library yesterday.","I goes library yesterday.","I going to the library."],a:1,e:"過去の出来事なので went を使います。",p:10}
+,{id:"E-007",s:"英語",l:"中学3年",d:3,t:"choice",q:"This book ( ) by many people. に入る語は？",c:["read","reads","is read","reading"],a:2,e:"受動態は be動詞 + 過去分詞。is read です。",p:10}
+,{id:"E-008",s:"英語",l:"高校",d:4,t:"choice",q:"‘although’ に最も近い意味は？",c:["だから","もし","〜だけれども","〜のために"],a:2,e:"although は「〜だけれども」を表す接続詞です。",p:15}
+,{id:"E-009",s:"英語",l:"一般教養",d:2,t:"choice",q:"‘library’ の意味は？",c:["病院","図書館","駅","美術館"],a:1,e:"library は「図書館」です。",p:8}
+,{id:"S-004",s:"理科",l:"小学生",d:1,t:"choice",q:"水が氷になる変化を何という？",c:["蒸発","凝固","融解","燃焼"],a:1,e:"液体が固体になる変化を凝固といいます。",p:5}
+,{id:"S-005",s:"理科",l:"中学1年",d:2,t:"choice",q:"植物の根が水を吸収する主な部分は？",c:["根毛","花びら","葉脈","種"],a:0,e:"根毛は土から水や養分を吸収します。",p:8}
+,{id:"S-006",s:"理科",l:"中学3年",d:3,t:"choice",q:"電圧・電流・抵抗の関係を表す法則は？",c:["フックの法則","オームの法則","慣性の法則","作用反作用の法則"],a:1,e:"V = IR で表されるオームの法則です。",p:10}
+,{id:"S-007",s:"理科",l:"高校",d:4,t:"choice",q:"原子番号が表すものは？",c:["中性子数","電子殻数","陽子数","質量数"],a:2,e:"原子番号は原子核に含まれる陽子の数です。",p:15}
+,{id:"S-008",s:"理科",l:"一般教養",d:2,t:"choice",q:"地球の大気で最も多い気体は？",c:["酸素","二酸化炭素","窒素","水素"],a:2,e:"大気の約78%は窒素です。",p:8}
+,{id:"H-004",s:"社会",l:"小学生",d:1,t:"choice",q:"日本の国旗に描かれているものは？",c:["青い星","赤い円","黄色い月","緑の三角"],a:1,e:"日本の国旗は白地に赤い円（日章）です。",p:5}
+,{id:"H-005",s:"社会",l:"中学2年",d:3,t:"choice",q:"江戸幕府を開いた人物は？",c:["織田信長","豊臣秀吉","徳川家康","徳川慶喜"],a:2,e:"徳川家康が1603年に江戸幕府を開きました。",p:10}
+,{id:"H-006",s:"社会",l:"中学3年",d:3,t:"choice",q:"国会の主な役割は？",c:["法律を制定する","裁判を行う","行政を指揮する","通貨を発行する"],a:0,e:"国会は国の立法機関で、法律を制定します。",p:10}
+,{id:"H-007",s:"社会",l:"高校",d:4,t:"choice",q:"需要が増え供給が変わらない場合、一般に価格は？",c:["下がる","上がる","変わらない","必ずゼロになる"],a:1,e:"需要増加に対して供給が一定なら、価格は上昇する方向に働きます。",p:15}
+,
+{id:"J-009",s:"国語",l:"小学生",d:1,t:"choice",q:"「森」の読み方は？",c:["もり","はし","かわ","みち"],a:0,e:"「森」は「もり」と読みます。",p:5},
+{id:"J-010",s:"国語",l:"小学生",d:1,t:"choice",q:"「大きい」の反対の意味は？",c:["高い","小さい","長い","早い"],a:1,e:"「大きい」の反対は「小さい」です。",p:5},
+{id:"J-011",s:"国語",l:"中学1年",d:2,t:"choice",q:"文の中で体言を修飾する言葉を何という？",c:["述語","連体詞","接続詞","感動詞"],a:1,e:"体言を修飾する語には連体詞があります。",p:8},
+{id:"J-012",s:"国語",l:"中学2年",d:3,t:"choice",q:"「千載一遇」の意味に近いものは？",c:["何度も起こること","千年に一度の機会","長い旅","大勢で協力すること"],a:1,e:"千載一遇はめったにない好機を意味します。",p:10},
+{id:"J-013",s:"国語",l:"中学3年",d:3,t:"choice",q:"「推敲」の意味は？",c:["文章を練り直す","急いで読む","暗記する","声を大きくする"],a:0,e:"推敲は文章をより良くするために練り直すことです。",p:10},
+{id:"J-014",s:"国語",l:"高校",d:4,t:"choice",q:"「斟酌」の読み方は？",c:["しんしゃく","せんしゃく","じんしゃく","しんさく"],a:0,e:"斟酌は「しんしゃく」と読みます。",p:15},
+{id:"J-015",s:"国語",l:"一般教養",d:2,t:"choice",q:"「七転び八起き」が表す意味は？",c:["失敗を恐れる","何度失敗しても立ち上がる","七人で協力する","休むことが大切"],a:1,e:"失敗してもくじけず立ち直るという意味です。",p:8},
+{id:"J-016",s:"国語",l:"中学1年",d:2,t:"choice",q:"「静かだ」の品詞は？",c:["動詞","形容詞","形容動詞","名詞"],a:2,e:"「静かだ」は形容動詞です。",p:8},
+{id:"J-017",s:"国語",l:"中学2年",d:3,t:"choice",q:"「枕草子」の作者は？",c:["紫式部","清少納言","小野小町","樋口一葉"],a:1,e:"枕草子は清少納言による随筆です。",p:10},
+{id:"J-018",s:"国語",l:"高校",d:4,t:"choice",q:"「徒然草」の作者は？",c:["兼好法師","松尾芭蕉","鴨長明","紀貫之"],a:0,e:"徒然草は兼好法師の随筆です。",p:15},
+{id:"M-011",s:"数学",l:"小学生",d:1,t:"choice",q:"7 × 6 は？",c:["36","42","48","56"],a:1,e:"7×6=42です。",p:5},
+{id:"M-012",s:"数学",l:"小学生",d:1,t:"choice",q:"1000 − 375 は？",c:["525","625","675","725"],a:1,e:"1000−375=625です。",p:5},
+{id:"M-013",s:"数学",l:"中学1年",d:2,t:"input",q:"−5 + 12 は？",a:"7",e:"−5+12=7です。",p:8},
+{id:"M-014",s:"数学",l:"中学1年",d:2,t:"choice",q:"−3 × 4 は？",c:["−12","12","−7","7"],a:0,e:"負の数と正の数の積は負で、−12です。",p:8},
+{id:"M-015",s:"数学",l:"中学2年",d:3,t:"input",q:"方程式 2x + 5 = 17 の x は？",a:"6",e:"2x=12よりx=6です。",p:10},
+{id:"M-016",s:"数学",l:"中学2年",d:3,t:"choice",q:"半径3cmの円の直径は？",c:["3cm","6cm","9cm","12cm"],a:1,e:"直径は半径の2倍なので6cmです。",p:10},
+{id:"M-017",s:"数学",l:"中学3年",d:3,t:"choice",q:"直角三角形で a=3,b=4 のとき斜辺 c は？",c:["5","6","7","8"],a:0,e:"三平方の定理よりc²=9+16=25、c=5です。",p:10},
+{id:"M-018",s:"数学",l:"高校",d:4,t:"input",q:"2³ の値は？",a:"8",e:"2の3乗は2×2×2=8です。",p:15},
+{id:"M-019",s:"数学",l:"高校",d:4,t:"choice",q:"log₁₀ 100 の値は？",c:["1","2","10","100"],a:1,e:"10²=100なのでlog₁₀100=2です。",p:15},
+{id:"M-020",s:"数学",l:"一般教養",d:2,t:"choice",q:"定価2000円の品を20%引き。価格は？",c:["1200円","1400円","1600円","1800円"],a:2,e:"2000×0.8=1600円です。",p:8},
+{id:"E-010",s:"英語",l:"小学生",d:1,t:"choice",q:"「猫」を英語で？",c:["dog","cat","bird","horse"],a:1,e:"catは猫です。",p:5},
+{id:"E-011",s:"英語",l:"小学生",d:1,t:"choice",q:"「ありがとう」を英語で？",c:["Goodbye","Please","Thank you","Sorry"],a:2,e:"Thank you は「ありがとう」です。",p:5},
+{id:"E-012",s:"英語",l:"中学1年",d:2,t:"choice",q:"He ( ) a soccer player.",c:["am","are","is","be"],a:2,e:"主語Heにはbe動詞isを使います。",p:8},
+{id:"E-013",s:"英語",l:"中学1年",d:2,t:"choice",q:"複数形として正しいものは？",c:["boxs","boxes","boxies","box"],a:1,e:"boxの複数形はboxesです。",p:8},
+{id:"E-014",s:"英語",l:"中学2年",d:3,t:"choice",q:"過去形 go の正しい形は？",c:["goed","gone","went","going"],a:2,e:"goの過去形はwentです。",p:10},
+{id:"E-015",s:"英語",l:"中学2年",d:3,t:"choice",q:"比較級として正しい形は？ tall",c:["taller","tallest","more tall","tallly"],a:0,e:"短い形容詞tallはtallerとなります。",p:10},
+{id:"E-016",s:"英語",l:"中学3年",d:3,t:"choice",q:"I have lived here ( ) 2019.",c:["for","since","during","by"],a:1,e:"起点となる年にはsinceを使います。",p:10},
+{id:"E-017",s:"英語",l:"中学3年",d:3,t:"choice",q:"「彼は忙しすぎて来られなかった」の表現は？",c:["too busy to come","busy enough come","so busy come","busy to coming"],a:0,e:"too…to…は「〜すぎて…できない」です。",p:10},
+{id:"E-018",s:"英語",l:"高校",d:4,t:"choice",q:"“environment” の意味は？",c:["環境","経験","装置","発明"],a:0,e:"environmentは環境です。",p:15},
+{id:"E-019",s:"英語",l:"一般教養",d:2,t:"choice",q:"“reservation” の意味は？",c:["説明","予約","結果","規則"],a:1,e:"reservationは予約です。",p:8},
+{id:"S-009",s:"理科",l:"小学生",d:1,t:"choice",q:"太陽に最も近い惑星は？",c:["地球","火星","水星","金星"],a:2,e:"太陽に最も近い惑星は水星です。",p:5},
+{id:"S-010",s:"理科",l:"小学生",d:1,t:"choice",q:"人間が呼吸で取り入れる気体は主に？",c:["酸素","窒素","水素","ヘリウム"],a:0,e:"呼吸では酸素を取り入れます。",p:5},
+{id:"S-011",s:"理科",l:"中学1年",d:2,t:"choice",q:"植物の光合成で主に放出される気体は？",c:["窒素","酸素","水素","二酸化炭素"],a:1,e:"光合成では酸素が放出されます。",p:8},
+{id:"S-012",s:"理科",l:"中学1年",d:2,t:"choice",q:"音が伝わらない場所は？",c:["水中","空気中","真空","金属中"],a:2,e:"音は媒質を必要とするため真空中では伝わりません。",p:8},
+{id:"S-013",s:"理科",l:"中学2年",d:3,t:"choice",q:"質量の単位として基本的に使われるのは？",c:["N","kg","Pa","V"],a:1,e:"質量の単位はkg（キログラム）です。",p:10},
+{id:"S-014",s:"理科",l:"中学2年",d:3,t:"choice",q:"磁石の同じ極どうしは？",c:["引き合う","反発する","無関係","必ずくっつく"],a:1,e:"磁石の同じ極どうしは反発します。",p:10},
+{id:"S-015",s:"理科",l:"中学3年",d:3,t:"choice",q:"地震の規模を表す指標は？",c:["震度","マグニチュード","気圧","湿度"],a:1,e:"地震そのものの規模はマグニチュードで表します。",p:10},
+{id:"S-016",s:"理科",l:"中学3年",d:3,t:"choice",q:"遺伝情報を担う物質は？",c:["DNA","水","脂質","デンプン"],a:0,e:"DNAが遺伝情報を担います。",p:10},
+{id:"S-017",s:"理科",l:"高校",d:4,t:"choice",q:"酸性の水溶液のpHは一般に？",c:["7より大きい","7","7より小さい","14"],a:2,e:"酸性の水溶液はpHが7より小さいです。",p:15},
+{id:"S-018",s:"理科",l:"高校",d:4,t:"choice",q:"光の速さが最も遅いのは一般にどれ？",c:["真空","空気","水","同じ"],a:2,e:"光は水中で真空より遅く進みます。",p:15},
+{id:"S-019",s:"理科",l:"一般教養",d:2,t:"choice",q:"成人の体で最も多く含まれる成分は？",c:["水","鉄","カルシウム","糖"],a:0,e:"人体の大部分は水で構成されています。",p:8},
+{id:"H-008",s:"社会",l:"小学生",d:1,t:"choice",q:"日本の通貨は？",c:["ドル","ユーロ","円","元"],a:2,e:"日本の通貨は円です。",p:5},
+{id:"H-009",s:"社会",l:"小学生",d:1,t:"choice",q:"日本の最も南にある都道府県は？",c:["北海道","沖縄県","青森県","東京都"],a:1,e:"沖縄県は日本の南西に位置します。",p:5},
+{id:"H-010",s:"社会",l:"中学1年",d:2,t:"choice",q:"世界で最も面積が大きい大陸は？",c:["アフリカ","南アメリカ","アジア","ヨーロッパ"],a:2,e:"アジア大陸が最も面積の大きい大陸です。",p:8},
+{id:"H-011",s:"社会",l:"中学1年",d:2,t:"choice",q:"日本の三大都市圏に含まれるのは？",c:["札幌","仙台","東京","那覇"],a:2,e:"東京圏は三大都市圏の一つです。",p:8},
+{id:"H-012",s:"社会",l:"中学2年",d:3,t:"choice",q:"鎌倉幕府を開いた人物は？",c:["源頼朝","足利尊氏","平清盛","北条時宗"],a:0,e:"源頼朝が鎌倉幕府を開きました。",p:10},
+{id:"H-013",s:"社会",l:"中学2年",d:3,t:"choice",q:"明治時代に行われた大きな改革は？",c:["大化の改新","明治維新","享保の改革","鎌倉新仏教"],a:1,e:"明治維新により政治・社会が大きく変わりました。",p:10},
+{id:"H-014",s:"社会",l:"中学3年",d:3,t:"choice",q:"三権分立で司法を担うのは？",c:["国会","内閣","裁判所","地方自治体"],a:2,e:"裁判所が司法権を担います。",p:10},
+{id:"H-015",s:"社会",l:"中学3年",d:3,t:"choice",q:"選挙で投票できる日本の年齢は現在何歳以上？",c:["16歳","18歳","20歳","21歳"],a:1,e:"日本では18歳以上が選挙権を持ちます。",p:10},
+{id:"H-018",s:"社会",l:"一般教養",d:2,t:"choice",q:"地図で東西南北を示す基本方位は何種類？",c:["2","3","4","8"],a:2,e:"基本方位は北・東・南・西の4種類です。",p:8}
+,{id:"J-019",s:"国語",l:"中学2年",d:2,t:"choice",q:"「努力」の対義語として最も近いものは？",c:["勤勉","怠惰","工夫","継続"],a:1,e:"努力の反対に近い意味は怠惰です。",p:8,h:"何もしようとしない状態を表す言葉を考えよう。"}
+,{id:"M-021",s:"数学",l:"中学1年",d:2,t:"choice",q:"(-3) + 8 の答えは？",c:["-11","-5","5","11"],a:2,e:"負の3から8を足すと5です。",p:8,h:"数直線で右へ8進むイメージ。"}
+,{id:"E-020",s:"英語",l:"中学1年",d:2,t:"choice",q:"「彼女は毎日英語を勉強します。」の英訳は？",c:["She study English every day.","She studies English every day.","She studying English every day.","She studied English every day."],a:1,e:"主語が三人称単数で現在形なのでstudyにesを付けます。",p:8,h:"主語がSheの現在形では動詞の形が変わります。"}
+,{id:"S-020",s:"理科",l:"中学1年",d:2,t:"choice",q:"水が氷になるときの変化を何という？",c:["蒸発","凝縮","融解","凝固"],a:3,e:"液体が固体になる変化は凝固です。",p:8,h:"液体から固体へ変わる状態変化の名前。"}
+,{id:"H-019",s:"社会",l:"中学1年",d:2,t:"choice",q:"日本の国会を構成する二つの議院は？",c:["衆議院と参議院","上院と下院","県議会と市議会","内閣と裁判所"],a:0,e:"日本の国会は衆議院と参議院で構成されます。",p:8,h:"日本では「衆」と「参」の2つの議院があります。"}
+,{id:"J-020",s:"国語",l:"高校",d:3,t:"choice",q:"「敷衍」の意味として近いものは？",c:["内容を広げて詳しく説明する","短くまとめる","反対意見を述べる","事実を隠す"],a:0,e:"敷衍は意味や内容を押し広げて詳しく説明することです。",p:10,h:"話や考えを広げて説明することを表す語。"}
+,{id:"M-022",s:"数学",l:"中学2年",d:3,t:"input",q:"3x = 27 のとき、x の値は？",a:"9",e:"両辺を3で割るとx=9です。",p:10,h:"両辺を3で割ってxを孤立させよう。"}
+,{id:"E-021",s:"英語",l:"中学2年",d:3,t:"choice",q:"空欄に入る語は？ I have lived here (　) 2020.",c:["for","since","during","at"],a:1,e:"開始時点を表す2020にはsinceを使います。",p:10,h:"期間ではなく、開始した時点を示す語を選ぼう。"}
+
+];
+const prizes=[
+{name:"ひらめきヒント券",rarity:"N",kind:"勉強アイテム",desc:"問題のヒントに使える券",emoji:"💡"},
+{name:"集中ノート",rarity:"N",kind:"勉強アイテム",desc:"学習コレクション",emoji:"📓"},
+{name:"星空プロフィール",rarity:"R",kind:"装飾",desc:"プロフィール用テーマ",emoji:"🌌"},
+{name:"復習サポート券",rarity:"R",kind:"勉強アイテム",desc:"復習用アイテム",emoji:"🔖"},
+{name:"知識のフクロウ",rarity:"SR",kind:"キャラクター",desc:"物知りな案内役",emoji:"🦉"},
+{name:"銀河の図書館",rarity:"SSR",kind:"背景",desc:"特別なホーム背景",emoji:"📚"},
+{name:"伝説の司書ルミナ",rarity:"UR",kind:"キャラクター",desc:"最高レアリティのコレクション",emoji:"🧙"}
+];
+const EMPTY_STATE={points:0,answered:0,correct:0,seen:{},inventory:{},equipped:{},bonusNext:0};
+const ACCOUNTS_KEY="sg_accounts_v1",ACTIVE_KEY="sg_active_account";
+let accounts={};try{accounts=JSON.parse(localStorage.getItem(ACCOUNTS_KEY)||"{}")}catch(_){accounts={}}
+let activeAccount=localStorage.getItem(ACTIVE_KEY)||"";
+function loadState(){
+  if(activeAccount&&accounts[activeAccount])return {...EMPTY_STATE,...accounts[activeAccount].state};
+  try{const raw=localStorage.getItem("sg_state");return raw?{...EMPTY_STATE,...JSON.parse(raw)}:{...EMPTY_STATE}}catch(_){return {...EMPTY_STATE}}
+}
+let state=loadState();let current=null,locked=false;
+function persistAccounts(){localStorage.setItem(ACCOUNTS_KEY,JSON.stringify(accounts));}
+function save(){
+  if(activeAccount&&accounts[activeAccount]){accounts[activeAccount].state=state;persistAccounts();}
+  else {try{localStorage.setItem("sg_state",JSON.stringify(state))}catch(error){console.warn("保存できません",error)}}
+  render();
+}
+function simplePasswordHash(value){let h1=2166136261,h2=0x9e3779b9;for(let i=0;i<value.length;i++){h1=Math.imul(h1^value.charCodeAt(i),16777619);h2=Math.imul(h2+value.charCodeAt(i),2246822519)}return (h1>>>0).toString(16)+"-"+(h2>>>0).toString(16)}
+function updateAccountUI(){const status=document.getElementById("accountStatus"),forms=document.getElementById("authForms"),actions=document.getElementById("accountActions");if(activeAccount&&accounts[activeAccount]){status.textContent=`ログイン中：${accounts[activeAccount].displayName}`;forms.style.display="none";actions.style.display="block"}else{status.textContent="ゲスト利用中。アカウントを作ると、このブラウザ内でデータをアカウント別に保存できます。";forms.style.display="grid";actions.style.display="none"}}
+function accountRegister(){let name=document.getElementById("accountName").value.trim(),pw=document.getElementById("accountPassword").value;if(!/^[a-zA-Z0-9_]{3,20}$/.test(name)){alert("ユーザー名は英数字・_で3〜20文字にしてください。");return}if(pw.length<6){alert("パスワードは6文字以上にしてください。");return}if(accounts[name]){alert("そのユーザー名はすでに使われています。");return}let starter={...EMPTY_STATE};if(!Object.keys(accounts).length){try{const old=localStorage.getItem("sg_state");if(old)starter={...EMPTY_STATE,...JSON.parse(old)}}catch(_){}}
+accounts[name]={displayName:name,passwordHash:simplePasswordHash(pw),state:starter};activeAccount=name;localStorage.setItem(ACTIVE_KEY,name);state=starter;persistAccounts();updateAccountUI();render();alert("アカウントを作成しました。このブラウザ内にデータを保存します。")}
+function accountLogin(){let name=document.getElementById("accountName").value.trim(),pw=document.getElementById("accountPassword").value;if(!accounts[name]||accounts[name].passwordHash!==simplePasswordHash(pw)){alert("ユーザー名またはパスワードが違います。");return}activeAccount=name;localStorage.setItem(ACTIVE_KEY,name);state={...EMPTY_STATE,...accounts[name].state};updateAccountUI();render();alert("ログインしました。")}
+function accountLogout(){save();activeAccount="";localStorage.removeItem(ACTIVE_KEY);state=loadState();updateAccountUI();render()}
+document.getElementById("registerBtn").onclick=accountRegister;document.getElementById("loginBtn").onclick=accountLogin;document.getElementById("logoutBtn").onclick=accountLogout;
+document.getElementById("backupBtn").onclick=()=>{if(!activeAccount){alert("先にアカウントへログインしてください。");return}const blob=new Blob([JSON.stringify({app:"StudyGacha",version:1,username:activeAccount,state},null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`study-gacha-${activeAccount}-backup.json`;a.click();URL.revokeObjectURL(a.href)};
+document.getElementById("importBtn").onclick=()=>document.getElementById("backupFile").click();
+document.getElementById("backupFile").onchange=async e=>{const file=e.target.files[0];if(!file)return;if(!activeAccount){alert("ログインしてからバックアップを読み込んでください。");e.target.value="";return}try{const data=JSON.parse(await file.text());if(data.app!=="StudyGacha"||!data.state||typeof data.state.points!=="number")throw new Error("invalid");if(!confirm("現在のアカウントデータをバックアップ内容で置き換えます。よろしいですか？"))return;state={...EMPTY_STATE,...data.state};save();alert("バックアップを復元しました。")}catch(_){alert("バックアップファイルを読み込めませんでした。")}finally{e.target.value=""}};
+function render(){document.getElementById("points").textContent=state.points;document.getElementById("answered").textContent=state.answered;document.getElementById("correct").textContent=state.correct;document.getElementById("accuracy").textContent=state.answered?Math.round(state.correct/state.answered*100)+"%":"0%";document.getElementById("firstCorrectCount").textContent=Object.keys(state.seen).filter(id=>state.seen[id]).length;let inv=document.getElementById("inventory");inv.innerHTML="";let entries=Object.entries(state.inventory);if(!entries.length)inv.innerHTML='<p class="muted">まだアイテムがありません。勉強してガチャに挑戦しよう！</p>';entries.forEach(([name,count])=>{let item=prizes.find(x=>x.name===name);if(!item)return;let div=document.createElement("div");div.className="item";let utility=["ひらめきヒント券","集中ノート","復習サポート券"].includes(name);let button=document.createElement("button");button.className="secondary";button.style.marginTop="10px";button.textContent=utility?"使用する":"装備 / 解除";button.onclick=()=>useItem(name);div.innerHTML=`<div style="font-size:32px">${item.emoji}</div><div class="rarity rarity-${item.rarity}">${item.rarity} · ${item.kind}</div><strong>${item.name}</strong><div class="small">${item.desc}</div><div class="small">所持数：${count}</div>`;div.append(button);inv.append(div)});let equipped=Object.entries(state.equipped||{}).filter(([_,v])=>v).map(([slot,name])=>`${slot}: ${name}`);document.getElementById("equippedDisplay").textContent=equipped.length?"装備："+equipped.join(" / "):"装備：なし";updateAccountUI()}
+function useItem(name){if(!state.inventory[name])return;const utility={"ひらめきヒント券":"hint","集中ノート":"bonus","復習サポート券":"review"}[name];if(utility){if(!current){alert("先に問題を出してください。アイテムは出題中の問題に使えます。");return}if(utility==="hint"){let hint=current.h||({"国語":"問題文のキーワードや言葉の意味に注目しよう。","数学":"式や数の関係を整理して考えよう。","英語":"主語・時制・単語の意味を確認しよう。","理科":"現象の特徴や用語の意味を思い出そう。","社会":"時代・場所・制度などの手がかりを確認しよう."}[current.s]||"問題文をもう一度よく読んでみよう。");document.getElementById("feedback").className="feedback good";document.getElementById("feedback").textContent="💡 ヒント："+hint;}
+else if(utility==="bonus"){state.bonusNext+=5;document.getElementById("feedback").className="feedback good";document.getElementById("feedback").textContent="📓 集中ノートを使用！初回正解時に次回+5Pボーナス（累積）"}
+else{document.getElementById("feedback").className="feedback good";document.getElementById("feedback").textContent="🔖 復習サポート："+(current.h||"問題文を読み、正解の根拠を整理してみよう。")}
+state.inventory[name]--;if(state.inventory[name]<=0)delete state.inventory[name];save();return}
+let slot=itemSlot(name);if(slot){if(state.equipped[slot]===name)delete state.equipped[slot];else state.equipped[slot]=name;save();return}}
+function itemSlot(name){if(["星空プロフィール"].includes(name))return"プロフィール装飾";if(["知識のフクロウ","伝説の司書ルミナ"].includes(name))return"キャラクター";if(["銀河の図書館"].includes(name))return"背景";return null}
+
+document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===b));document.querySelectorAll(".panel").forEach(x=>x.classList.toggle("active",x.id===b.dataset.tab))}));
+function filtered(){return questions.filter(q=>(document.getElementById("subject").value==="すべて"||q.s===document.getElementById("subject").value)&&(document.getElementById("level").value==="すべて"||q.l===document.getElementById("level").value)&&(document.getElementById("difficulty").value==="0"||q.d===+document.getElementById("difficulty").value))}
+const subjectOrder=["国語","数学","英語","理科","社会"];
+let rotationSignature="",rotationSubjectIndex=0,rotationQuestionIndex={};
+function nextBalancedQuestion(arr){
+  const signature=arr.map(q=>q.id).sort().join("|");
+  if(signature!==rotationSignature){rotationSignature=signature;rotationSubjectIndex=0;rotationQuestionIndex={};}
+  const grouped={};
+  arr.forEach(q=>(grouped[q.s]??=[]).push(q));
+  Object.keys(grouped).forEach(s=>grouped[s].sort((a,b)=>a.id.localeCompare(b.id)));
+  const subjects=subjectOrder.filter(s=>grouped[s]?.length);
+  if(!subjects.length)return arr[0];
+  const subject=subjects[rotationSubjectIndex%subjects.length];
+  rotationSubjectIndex=(rotationSubjectIndex+1)%subjects.length;
+  const list=grouped[subject],index=rotationQuestionIndex[subject]||0;
+  const q=list[index%list.length];rotationQuestionIndex[subject]=(index+1)%list.length;
+  return q;
+}
+function showQuestion(){let arr=filtered();document.getElementById("questionCount").textContent=`該当する固定問題：${arr.length}問`;if(!arr.length){document.getElementById("questionText").textContent="条件に合う問題がありません。条件を変えてみてください。";document.getElementById("answerArea").innerHTML="";return}current=nextBalancedQuestion(arr);locked=false;document.getElementById("qMeta").textContent=`${current.s} / ${current.l} / ${"★".repeat(current.d)} / 固定問題`;document.getElementById("qPoints").textContent=`正解 +${current.p}P`;document.getElementById("questionText").textContent=current.q;document.getElementById("feedback").className="feedback";document.getElementById("feedback").textContent="";let area=document.getElementById("answerArea");area.innerHTML="";if(current.t==="choice"){let grid=document.createElement("div");grid.className="choices";current.c.forEach((c,i)=>{let b=document.createElement("button");b.className="choice";b.textContent=`${i+1}. ${c}`;b.onclick=()=>answer(i);grid.append(b)});area.append(grid)}else{let input=document.createElement("input");input.placeholder="答えを入力";input.id="typed";let b=document.createElement("button");b.className="primary";b.style.marginTop="10px";b.textContent="回答する";b.onclick=()=>answer(input.value.trim());area.append(input,b);input.addEventListener("keydown",e=>{if(e.key==="Enter")answer(input.value.trim())})}}
+function answer(value){if(!current||locked)return;locked=true;let ok=current.t==="choice"?value===current.a:String(value).replace(/\s/g,"").toLowerCase()===String(current.a).replace(/\s/g,"").toLowerCase();state.answered++;if(ok){state.correct++;let first=!state.seen[current.id];let earned=first?current.p:0;if(first&&state.bonusNext){earned+=state.bonusNext;state.bonusNext=0;}state.points+=earned;state.seen[current.id]=true;let fb=document.getElementById("feedback");fb.className="feedback good";fb.textContent=`正解！ ${earned?`+${earned}P 獲得！`:"この問題の初回ポイントは獲得済みです。"} 解説：${current.e}`}else{let fb=document.getElementById("feedback");fb.className="feedback bad";fb.textContent=`不正解。正解：${current.t==="choice"?current.c[current.a]:current.a}。解説：${current.e}`}document.querySelectorAll("#answerArea button").forEach(b=>b.disabled=true);save()}
+document.getElementById("nextBtn").onclick=showQuestion;
+["subject","level","difficulty"].forEach(id=>document.getElementById(id).addEventListener("change",()=>{rotationSignature="";rotationSubjectIndex=0;rotationQuestionIndex={};document.getElementById("questionCount").textContent=`該当する固定問題：${filtered().length}問`}));
+document.getElementById("drawBtn").onclick=()=>{if(state.points<300){document.getElementById("drawResult").innerHTML='<p class="muted">ポイントが足りません。問題に挑戦してポイントを集めよう！</p>';return}const btn=document.getElementById("drawBtn"),capsule=document.querySelector(".capsule"),box=document.querySelector(".gacha-box");btn.disabled=true;btn.textContent="カプセル抽選中…";document.getElementById("drawResult").innerHTML="";capsule.classList.remove("opening");capsule.classList.add("shaking");box.classList.remove("reveal-flash");state.points-=300;let r=Math.random()*100,prize=r<1?prizes[6]:r<5?prizes[5]:r<20?prizes[4]:r<50?prizes[2+Math.floor(Math.random()*2)]:prizes[Math.floor(Math.random()*2)];state.inventory[prize.name]=(state.inventory[prize.name]||0)+1;save();setTimeout(()=>{capsule.classList.remove("shaking");capsule.classList.add("opening");box.classList.add("reveal-flash")},950);setTimeout(()=>{document.getElementById("drawResult").innerHTML=`<div class="result-reveal"><div class="prize-emoji">${prize.emoji}</div><h3>${prize.name}</h3><div class="rarity rarity-${prize.rarity}">${prize.rarity} · ${prize.kind}</div><p class="small">${prize.desc}</p></div>`;btn.disabled=false;btn.textContent="ガチャを1回引く";capsule.classList.remove("opening");box.classList.remove("reveal-flash")},1550)};
+render();updateAccountUI();document.getElementById("questionCount").textContent=`収録問題：${questions.length}問`;document.getElementById("startupError").style.display="none";const devMode=new URLSearchParams(location.search).get("dev")==="1";if(devMode){document.getElementById("devTools").style.display="block";document.getElementById("devAddPoints").onclick=()=>{state.points+=300;save();document.getElementById("drawResult").textContent="開発テスト用に300P追加しました。";};}
+</script>
+</body></html>
